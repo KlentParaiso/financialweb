@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+backend/.venv/
+.venv/
+__pycache__/
+*.py[cod]
+.Python
+env/
+venv/
+
+# Environment
+.env
+.env.local
+.env.*.local
+backend/.env
+
+# Build / output
+.next/
+frontend/.next/
+out/
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+*.swp
+*.swo
+
+# Logs and cache
+*.log
+.npm
+.eslintcache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Optional
+*.tgz
