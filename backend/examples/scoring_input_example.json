@@ -1,0 +1,45 @@
+{
+  "monthly_income": 55000,
+  "employment_stability": "stable",
+  "income_variability": "stable",
+  "expenses": {
+    "rent": 12000,
+    "utilities": 2500,
+    "food": 8000,
+    "transport": 3500,
+    "subscriptions": 500,
+    "discretionary": 2000,
+    "dependents_support": 6000,
+    "other": 0
+  },
+  "debts": [
+    {
+      "balance": 80000,
+      "interest_rate_annual_pct": 18,
+      "monthly_payment": 4000,
+      "name": "Credit card"
+    }
+  ],
+  "emergency_fund": 90000,
+  "monthly_savings": 8000,
+  "dependents_count": 2,
+  "breadwinner": true,
+  "ofw_mode": false,
+  "remittance_allocation_pct": null,
+  "goals": [
+    {
+      "target_amount": 500000,
+      "target_date": "2030-06-01",
+      "goal_type": "house"
+    },
+    {
+      "target_amount": 200000,
+      "years_to_goal": 2,
+      "goal_type": "emergency_fund"
+    }
+  ],
+  "inflation_rate_pct": 4,
+  "expected_return_profile": "moderate",
+  "investing_status": "exploring",
+  "risk_tolerance": "medium"
+}

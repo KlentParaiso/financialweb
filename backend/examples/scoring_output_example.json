@@ -1,0 +1,98 @@
+{
+  "metrics": {
+    "savings_rate": 14.545454545454545,
+    "expense_ratio": 0.8181818181818182,
+    "debt_to_income": 7.2727272727272725,
+    "emergency_fund_months": 2.14,
+    "total_monthly_expenses": 42000,
+    "total_monthly_debt_payments": 4000
+  },
+  "financial_health_score": 62.45,
+  "grade": "C",
+  "dimension_scores": [
+    {
+      "name": "Savings rate",
+      "score": 72.73,
+      "weight_pct": 25,
+      "weighted_score": 18.18,
+      "tip": "Good progress. PH guideline: aim for 20% savings rate when possible."
+    },
+    {
+      "name": "Emergency fund",
+      "score": 23.75,
+      "weight_pct": 20,
+      "weighted_score": 4.75,
+      "tip": "You're at 2.1 months. Target 9 months for better security."
+    },
+    {
+      "name": "Debt-to-income",
+      "score": 81.82,
+      "weight_pct": 20,
+      "weighted_score": 16.36,
+      "tip": "Healthy debt-to-income ratio. Avoid taking on new debt unnecessarily."
+    },
+    {
+      "name": "Expense ratio",
+      "score": 60.61,
+      "weight_pct": 15,
+      "weighted_score": 9.09,
+      "tip": "Try to bring expenses below 80% of income to free up savings and debt paydown."
+    },
+    {
+      "name": "Income stability",
+      "score": 100,
+      "weight_pct": 10,
+      "weighted_score": 10,
+      "tip": "Stable income allows consistent saving. Use it to automate savings."
+    },
+    {
+      "name": "Goal & investing",
+      "score": 66,
+      "weight_pct": 10,
+      "weighted_score": 6.6,
+      "tip": "Set a target date and amount for your top goal; use inflation-adjusted targets."
+    }
+  ],
+  "recommendations": [
+    "As a breadwinner or with 2+ dependents, aim for 6-12 months of expenses in your emergency fund.",
+    "Consider extra debt payments to shorten term and reduce total interest.",
+    "Build emergency fund in a separate account; top up monthly.",
+    "Define 1-2 financial goals (e.g. emergency fund, house down payment) with target dates.",
+    "Revisit your budget and goals quarterly."
+  ],
+  "goal_projections": [
+    {
+      "goal_type": "house",
+      "target_amount_today_php": 500000,
+      "years_to_goal": 4.3,
+      "inflation_rate_pct": 4,
+      "inflation_adjusted_target_php": 592089.92,
+      "scenarios": [
+        {
+          "label": "Conservative",
+          "monthly_contribution_php": 10234.56,
+          "total_contribution_php": 528000.0,
+          "future_value_php": 592089.92,
+          "inflation_adjusted_target_php": 592089.92,
+          "shortfall_or_surplus_php": 0
+        },
+        {
+          "label": "Moderate",
+          "monthly_contribution_php": 9456.78,
+          "total_contribution_php": 488000.0,
+          "future_value_php": 592089.92,
+          "inflation_adjusted_target_php": 592089.92,
+          "shortfall_or_surplus_php": 0
+        },
+        {
+          "label": "Aggressive",
+          "monthly_contribution_php": 8723.45,
+          "total_contribution_php": 450000.0,
+          "future_value_php": 592089.92,
+          "inflation_adjusted_target_php": 592089.92,
+          "shortfall_or_surplus_php": 0
+        }
+      ]
+    }
+  ]
+}
