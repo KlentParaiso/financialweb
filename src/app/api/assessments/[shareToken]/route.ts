@@ -13,9 +13,11 @@ export async function GET(
     if (!row) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
+    const payloadJson = typeof row.payloadJson === "string" ? JSON.parse(row.payloadJson) : row.payloadJson;
+    const analysisJson = typeof row.analysisJson === "string" ? JSON.parse(row.analysisJson) : row.analysisJson;
     return NextResponse.json({
-      payloadJson: row.payloadJson,
-      analysisJson: row.analysisJson,
+      payloadJson,
+      analysisJson,
     });
   } catch (e) {
     console.error("GET /api/assessments/[shareToken]", e);

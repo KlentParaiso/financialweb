@@ -3,21 +3,23 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Wallet, Receipt, CreditCard, PiggyBank, Users, Target, TrendingUp, ClipboardCheck } from "lucide-react";
 import type { AssessmentPayload } from "@/lib/financial-engine/types";
 
 const STEPS = [
-  "Income",
-  "Expenses",
-  "Debt",
-  "Savings",
-  "Profile",
-  "Goals",
-  "Investing",
-  "Review",
+  { label: "Income", icon: Wallet },
+  { label: "Expenses", icon: Receipt },
+  { label: "Debt", icon: CreditCard },
+  { label: "Savings", icon: PiggyBank },
+  { label: "Profile", icon: Users },
+  { label: "Goals", icon: Target },
+  { label: "Investing", icon: TrendingUp },
+  { label: "Review", icon: ClipboardCheck },
 ];
 
 const defaultPayload: AssessmentPayload = {
@@ -87,32 +89,53 @@ export default function AssessmentPage() {
     payload.expenses.dependentsSupport;
   const expenseWarning = payload.monthlyIncome > 0 && totalExpenses > payload.monthlyIncome;
 
+  const StepIcon = STEPS[step].icon;
+
   return (
-    <div className="container-narrow py-10">
-      <Link href="/" className="text-sm text-[hsl(var(--primary))] hover:underline">
+    <div className="container-narrow py-8 sm:py-10">
+      <Link href="/" className="text-sm text-primary hover:underline transition-colors">
         ← Home
       </Link>
-      <h1 className="mt-4 text-2xl font-bold text-[hsl(var(--foreground))]">
+      <motion.h1
+        key="title"
+        initial={{ opacity: 0, y: 4 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mt-4 text-2xl font-bold text-foreground sm:text-3xl"
+      >
         Financial health checkup
-      </h1>
-      <p className="mt-1 text-sm text-[hsl(var(--muted-foreground))]">
-        Step {step + 1} of {STEPS.length}: {STEPS[step]}
+      </motion.h1>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Step {step + 1} of {STEPS.length}: {STEPS[step].label}
       </p>
 
-      <div className="mt-6 flex gap-1">
-        {STEPS.map((_, i) => (
+      <div className="mt-6 flex gap-1" role="progressbar" aria-valuenow={step + 1} aria-valuemin={1} aria-valuemax={STEPS.length}>
+        {STEPS.map((s, i) => (
           <div
-            key={i}
-            className={`h-1.5 flex-1 rounded-full ${i <= step ? "bg-[hsl(var(--primary))]" : "bg-[hsl(var(--border))]"}`}
+            key={s.label}
+            className={`h-1.5 flex-1 rounded-full transition-colors duration-200 ${i <= step ? "bg-primary" : "bg-border"}`}
           />
         ))}
       </div>
 
       <Card className="mt-8">
         <CardHeader>
-          <CardTitle className="text-lg">{STEPS[step]}</CardTitle>
+          <div className="flex items-center gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+              <StepIcon className="h-5 w-5" />
+            </span>
+            <CardTitle className="text-lg">{STEPS[step].label}</CardTitle>
+          </div>
         </CardHeader>
         <CardContent className="space-y-4">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={step}
+              initial={{ opacity: 0, x: 8 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -8 }}
+              transition={{ duration: 0.2 }}
+              className="space-y-4"
+            >
           {step === 0 && (
             <>
               <div>
@@ -130,7 +153,7 @@ export default function AssessmentPage() {
               <div>
                 <Label>Employment type</Label>
                 <select
-                  className="mt-1 h-11 w-full rounded-xl border border-[hsl(var(--border))] px-4"
+                  className="mt-1 h-11 w-full rounded-xl border border-border bg-background px-4 text-foreground focus:ring-2 focus:ring-primary focus:ring-offset-1"
                   value={payload.employmentStability}
                   onChange={(e) => update("employmentStability", e.target.value as AssessmentPayload["employmentStability"])}
                 >
@@ -142,7 +165,7 @@ export default function AssessmentPage() {
               <div>
                 <Label>Income variability</Label>
                 <select
-                  className="mt-1 h-11 w-full rounded-xl border border-[hsl(var(--border))] px-4"
+                  className="mt-1 h-11 w-full rounded-xl border border-border bg-background px-4 text-foreground focus:ring-2 focus:ring-primary focus:ring-offset-1"
                   value={payload.incomeVariability}
                   onChange={(e) => update("incomeVariability", e.target.value as AssessmentPayload["incomeVariability"])}
                 >
@@ -185,14 +208,14 @@ export default function AssessmentPage() {
 
           {step === 2 && (
             <>
-              <p className="text-sm text-[hsl(var(--muted-foreground))]">Add each debt. Leave empty if none.</p>
+              <p className="text-sm text-muted-foreground">Add each debt. Leave empty if none.</p>
               {payload.debts.map((d, i) => (
-                <div key={i} className="rounded-xl border border-[hsl(var(--border))] p-4 space-y-2">
+                <div key={i} className="rounded-xl border border-border p-4 space-y-2">
                   <div className="flex justify-between">
                     <span className="text-sm font-medium">Debt #{i + 1}</span>
                     <button
                       type="button"
-                      className="text-sm text-[hsl(var(--primary))]"
+                      className="text-sm text-primary"
                       onClick={() => update("debts", payload.debts.filter((_, j) => j !== i))}
                     >
                       Remove
@@ -249,12 +272,12 @@ export default function AssessmentPage() {
 
           {step === 5 && (
             <>
-              <p className="text-sm text-[hsl(var(--muted-foreground))]">Add goals for inflation-adjusted projections.</p>
+              <p className="text-sm text-muted-foreground">Add goals for inflation-adjusted projections.</p>
               {payload.goals.map((g, i) => (
-                <div key={i} className="rounded-xl border border-[hsl(var(--border))] p-4 space-y-2">
+                <div key={i} className="rounded-xl border border-border p-4 space-y-2">
                   <div className="flex justify-between">
                     <span className="text-sm font-medium">Goal #{i + 1}</span>
-                    <button type="button" className="text-sm text-[hsl(var(--primary))]" onClick={() => update("goals", payload.goals.filter((_, j) => j !== i))}>Remove</button>
+                    <button type="button" className="text-sm text-primary" onClick={() => update("goals", payload.goals.filter((_, j) => j !== i))}>Remove</button>
                   </div>
                   <Input type="number" min={0} step={1000} placeholder="Target amount (₱)" value={g.targetAmountToday || ""} onChange={(e) => {
                     const next = [...payload.goals];
@@ -281,7 +304,7 @@ export default function AssessmentPage() {
             <>
               <div>
                 <Label>Investing status</Label>
-                <select className="mt-1 h-11 w-full rounded-xl border border-[hsl(var(--border))] px-4" value={payload.investingStatus} onChange={(e) => update("investingStatus", e.target.value as AssessmentPayload["investingStatus"])}>
+                <select className="mt-1 h-11 w-full rounded-xl border border-border bg-background px-4 text-foreground focus:ring-2 focus:ring-primary focus:ring-offset-1" value={payload.investingStatus} onChange={(e) => update("investingStatus", e.target.value as AssessmentPayload["investingStatus"])}>
                   <option value="none">Not investing yet</option>
                   <option value="exploring">Exploring</option>
                   <option value="active">Active</option>
@@ -289,7 +312,7 @@ export default function AssessmentPage() {
               </div>
               <div>
                 <Label>Risk tolerance</Label>
-                <select className="mt-1 h-11 w-full rounded-xl border border-[hsl(var(--border))] px-4" value={payload.riskTolerance} onChange={(e) => update("riskTolerance", e.target.value as AssessmentPayload["riskTolerance"])}>
+                <select className="mt-1 h-11 w-full rounded-xl border border-border bg-background px-4 text-foreground focus:ring-2 focus:ring-primary focus:ring-offset-1" value={payload.riskTolerance} onChange={(e) => update("riskTolerance", e.target.value as AssessmentPayload["riskTolerance"])}>
                   <option value="low">Low</option>
                   <option value="medium">Medium</option>
                   <option value="high">High</option>
@@ -299,15 +322,22 @@ export default function AssessmentPage() {
           )}
 
           {step === 7 && (
-            <div className="space-y-2 text-sm">
-              <p>Income: ₱{payload.monthlyIncome.toLocaleString()}</p>
-              <p>Emergency fund: ₱{payload.emergencyFund.toLocaleString()}</p>
-              <p>Monthly savings: ₱{payload.monthlySavings.toLocaleString()}</p>
-              <p>Debts: {payload.debts.length}</p>
-              <p>Goals: {payload.goals.length}</p>
-              <p className="text-[hsl(var(--muted-foreground))]">Submit to get your score and action plan.</p>
+            <div className="rounded-xl border border-border bg-muted/30 p-4">
+              <p className="text-sm font-medium text-foreground mb-3">Summary</p>
+              <table className="w-full text-sm text-muted-foreground">
+                <tbody>
+                  <tr><td className="py-1">Income</td><td className="text-right font-medium text-foreground">₱{payload.monthlyIncome.toLocaleString()}</td></tr>
+                  <tr><td className="py-1">Emergency fund</td><td className="text-right font-medium text-foreground">₱{payload.emergencyFund.toLocaleString()}</td></tr>
+                  <tr><td className="py-1">Monthly savings</td><td className="text-right font-medium text-foreground">₱{payload.monthlySavings.toLocaleString()}</td></tr>
+                  <tr><td className="py-1">Debts</td><td className="text-right font-medium text-foreground">{payload.debts.length}</td></tr>
+                  <tr><td className="py-1">Goals</td><td className="text-right font-medium text-foreground">{payload.goals.length}</td></tr>
+                </tbody>
+              </table>
+              <p className="mt-4 text-sm text-muted-foreground">Submit to get your score and action plan.</p>
             </div>
           )}
+            </motion.div>
+          </AnimatePresence>
         </CardContent>
       </Card>
 

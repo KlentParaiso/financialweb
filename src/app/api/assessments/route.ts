@@ -37,8 +37,8 @@ export async function POST(request: Request) {
     await prisma.assessment.create({
       data: {
         shareToken,
-        payloadJson: payload as unknown as object,
-        analysisJson: analysis as unknown as object,
+        payloadJson: JSON.stringify(payload),
+        analysisJson: JSON.stringify(analysis),
       },
     });
 

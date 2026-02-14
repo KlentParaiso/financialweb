@@ -6,14 +6,14 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
 model Assessment {
   id           String   @id @default(cuid())
   createdAt    DateTime @default(now())
-  payloadJson  Json     // validated financial input
-  analysisJson Json     // computed score, goals, debt sim, action plan
+  payloadJson  String   // JSON string: validated financial input
+  analysisJson String   // JSON string: computed score, goals, debt sim, action plan
   shareToken   String   @unique
 }
