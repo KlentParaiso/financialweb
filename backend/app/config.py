@@ -2,7 +2,7 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    database_url: str = "postgresql://finance_user:finance_pass@localhost:5432/finance_db"
+    database_url: str = "sqlite:///./finance.db"  # use PostgreSQL URL in .env for production
     api_host: str = "0.0.0.0"
     api_port: int = 8000
 

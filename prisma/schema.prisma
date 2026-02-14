@@ -1,0 +1,19 @@
+// PesoSense – PH Financial Health Checkup
+// Privacy-first: no name, address, phone, or email stored.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Assessment {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  payloadJson  Json     // validated financial input
+  analysisJson Json     // computed score, goals, debt sim, action plan
+  shareToken   String   @unique
+}
