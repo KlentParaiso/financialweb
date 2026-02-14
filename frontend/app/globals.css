@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #faf9f7;
+  --card: #ffffff;
+  --text: #1a1a1a;
+  --muted: #6b7280;
+  --accent: #0d9488;
+  --border: #e5e7eb;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+@layer components {
+  .prose-custom p {
+    @apply mb-3 text-gray-700 leading-relaxed;
+  }
+  .prose-custom h2 {
+    @apply mt-6 mb-2 text-xl font-semibold text-gray-900;
+  }
+  .prose-custom ul {
+    @apply list-disc pl-6 mb-3 space-y-1;
+  }
+}

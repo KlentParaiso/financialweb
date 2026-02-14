@@ -1,0 +1,13 @@
+{
+  "title": "Setting financial goals",
+  "sections": [
+    {
+      "heading": "SMART goals",
+      "body": "Set goals that are Specific, Measurable, Achievable, Relevant, and Time-bound. For example: 'Save ₱500,000 for emergency fund in 24 months' or 'Pay off credit card balance in 18 months.'"
+    },
+    {
+      "heading": "Inflation matters",
+      "body": "Prices rise over time (often 3–5% per year in the PH). When planning for a future amount (e.g., house down payment in 10 years), use inflation-adjusted targets: target today × (1 + inflation rate)^years. Our assessment tool does this for you."
+    }
+  ]
+}

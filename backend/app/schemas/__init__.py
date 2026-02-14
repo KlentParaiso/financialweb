@@ -1,0 +1,31 @@
+from app.schemas.assessment import (
+    ProfileInput,
+    IncomeInput,
+    ExpensesInput,
+    DebtInput,
+    SavingsInput,
+    InvestingInput,
+    GoalInput,
+    AssessmentCreate,
+    AssessmentResponse,
+    DimensionScore,
+    GoalProjectionScenario,
+    GoalProjectionResult,
+    AnalysisOutput,
+)
+
+__all__ = [
+    "ProfileInput",
+    "IncomeInput",
+    "ExpensesInput",
+    "DebtInput",
+    "SavingsInput",
+    "InvestingInput",
+    "GoalInput",
+    "AssessmentCreate",
+    "AssessmentResponse",
+    "DimensionScore",
+    "GoalProjectionScenario",
+    "GoalProjectionResult",
+    "AnalysisOutput",
+]
