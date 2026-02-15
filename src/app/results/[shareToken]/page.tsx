@@ -43,7 +43,7 @@ function SpendingTooltip({ active, payload, total }: { active?: boolean; payload
   );
 }
 
-export default function ResultsPage({ params }: { params: Promise<{ shareToken: string }> }) {
+export default function ResultsPage({ params }: { params: Promise<{ shareToken: string }> | { shareToken: string } }) {
   const [shareToken, setShareToken] = useState<string | null>(null);
   const [data, setData] = useState<{ payloadJson: unknown; analysisJson: AnalysisResult } | null>(null);
   const [loading, setLoading] = useState(true);
@@ -52,7 +52,7 @@ export default function ResultsPage({ params }: { params: Promise<{ shareToken: 
 
   useEffect(() => {
     let cancelled = false;
-    params.then((p) => {
+    const run = (p: { shareToken: string }) => {
       setShareToken(p.shareToken);
       fetch(`/api/assessments/${p.shareToken}`)
         .then((res) => res.json())
@@ -65,7 +65,12 @@ export default function ResultsPage({ params }: { params: Promise<{ shareToken: 
         .finally(() => {
           if (!cancelled) setLoading(false);
         });
-    });
+    };
+    if (params && typeof (params as Promise<unknown>).then === "function") {
+      (params as Promise<{ shareToken: string }>).then(run);
+    } else {
+      run(params as { shareToken: string });
+    }
     return () => { cancelled = true; };
   }, [params]);
 
