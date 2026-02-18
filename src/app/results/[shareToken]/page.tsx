@@ -31,14 +31,35 @@ import type { AnalysisResult } from "@/lib/financial-engine/types";
 
 const CHART_COLORS = ["hsl(var(--primary))", "#64748b", "#0d9488", "#f59e0b", "#6366f1", "#ec4899"];
 
+function ScoreBreakdownTooltip({
+  active,
+  payload,
+}: {
+  active?: boolean;
+  payload?: { payload?: { name: string; tip?: string }; value?: number }[];
+}) {
+  if (!active || !payload?.length) return null;
+  const item = payload[0];
+  const name = item.payload?.name ?? "";
+  const tip = item.payload?.tip ?? name;
+  const value = item.value ?? 0;
+  return (
+    <div className="rounded-xl border border-border bg-card px-4 py-3 shadow-lg">
+      <p className="font-semibold text-foreground">{name}</p>
+      <p className="mt-1 text-sm text-muted-foreground">{tip}</p>
+      <p className="mt-1 text-sm font-medium text-foreground">Score: {value.toFixed(0)}</p>
+    </div>
+  );
+}
+
 function SpendingTooltip({ active, payload, total }: { active?: boolean; payload?: { name: string; value: number }[]; total: number }) {
   if (!active || !payload?.length) return null;
   const p = payload[0];
   const pct = total > 0 ? ((p.value / total) * 100).toFixed(1) : "0";
   return (
-    <div className="rounded-xl border border-border bg-card px-3 py-2 shadow-md">
-      <p className="font-medium text-foreground">{p.name}</p>
-      <p className="text-sm text-muted-foreground">{formatPhp(p.value)} · {pct}%</p>
+    <div className="rounded-xl border border-border bg-card px-4 py-3 shadow-lg">
+      <p className="font-semibold text-foreground">{p.name}</p>
+      <p className="mt-1 text-sm text-muted-foreground">{formatPhp(p.value)} · {pct}%</p>
     </div>
   );
 }
@@ -192,13 +213,7 @@ export default function ResultsPage({ params }: { params: Promise<{ shareToken: 
               <BarChart data={analysis.healthScore.dimensionScores} layout="vertical" margin={{ left: 110 }}>
                 <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 12 }} />
                 <YAxis type="category" dataKey="name" width={105} tick={{ fontSize: 12 }} />
-                <Tooltip
-                  contentStyle={{ borderRadius: "12px", border: "1px solid hsl(var(--border))" }}
-                  formatter={(value: number, _name: string, props: { payload?: { name: string; tip?: string } }) => [
-                    value.toFixed(0),
-                    props.payload?.tip ?? props.payload?.name ?? "",
-                  ]}
-                />
+                <Tooltip content={<ScoreBreakdownTooltip />} />
                 <Bar
                   dataKey="score"
                   radius={[0, 6, 6, 0]}
@@ -227,8 +242,8 @@ export default function ResultsPage({ params }: { params: Promise<{ shareToken: 
             <div className="my-10 h-px bg-border" />
             <section>
               <h2 className="text-lg font-semibold text-foreground">Spending</h2>
-              <div className="mt-4 flex flex-col items-center sm:flex-row sm:items-start sm:gap-8">
-                <div className="h-64 w-64 flex-shrink-0">
+              <div className="mt-4 flex flex-col items-center sm:flex-row sm:items-start sm:gap-10">
+                <div className="h-80 w-80 flex-shrink-0 sm:h-96 sm:w-96">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
@@ -237,10 +252,9 @@ export default function ResultsPage({ params }: { params: Promise<{ shareToken: 
                         nameKey="name"
                         cx="50%"
                         cy="50%"
-                        innerRadius="55%"
-                        outerRadius="80%"
+                        innerRadius="52%"
+                        outerRadius="78%"
                         paddingAngle={2}
-                        label={({ name }) => name}
                       >
                         {Object.keys(analysis.spendingBreakdown).map((_, i) => (
                           <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} stroke="transparent" />
